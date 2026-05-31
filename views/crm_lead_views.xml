@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================= -->
+    <!-- CRM LEAD FORM VIEW - VISA SIMPLIFIED          -->
+    <!-- ============================================= -->
+    <record id="visa_crm_lead_view_form" model="ir.ui.view">
+        <field name="name">crm.lead.form.visa</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- INJECT: Lead Type + Status as tight badges right under the Name -->
+            <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                <div class="d-flex align-items-center gap-2 mt-1 mb-2">
+                    <field name="lead_type_visa" widget="badge"
+                           decoration-info="lead_type_visa == 'individual'"
+                           decoration-primary="lead_type_visa == 'agent'"
+                           decoration-warning="lead_type_visa == 'multi_profile'"/>
+                    <field name="lead_temperature" widget="badge"
+                           decoration-danger="lead_temperature == 'hot'"
+                           decoration-warning="lead_temperature == 'warm'"
+                           decoration-info="lead_temperature == 'cold'"/>
+                    <field name="visa_category" widget="badge" invisible="not visa_category"/>
+                </div>
+            </xpath>
+
+            <!-- HIDE: Expected Revenue and Probability -->
+            <xpath expr="//label[@for='expected_revenue']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@id='probability']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- HIDE: Original Main Group to restructure completely -->
+            <xpath expr="//group[group[@name='opportunity_partner']]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- HIDE: Extra Information tabs -->
+            <xpath expr="//page[@name='lead']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='extra']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <!-- NEW LAYOUT: Structured Boxes below the title -->
+            <xpath expr="//group[group[@name='opportunity_partner']]" position="after">
+                <group>
+                    <group string="Contact Info">
+                        <field name="phone"/>
+                        <field name="whatsapp_number" widget="phone"/>
+                        <field name="email_from"/>
+                    </group>
+                    <group string="Lead Details">
+                        <field name="lead_temperature" widget="selection"/>
+                        <field name="visa_category" widget="selection"/>
+                        <field name="application_type" widget="selection"/>
+                        <field name="service_type" widget="selection"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Travel &amp; Payment">
+                        <field name="travel_date"/>
+                        <field name="price_quoted" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                        <field name="payment_status" widget="selection"/>
+                        <field name="preferred_location"/>
+                        <field name="num_ids" invisible="lead_type_visa == 'individual'"/>
+                        <field name="company_currency" invisible="1"/>
+                    </group>
+                    <group string="Follow Up &amp; Notes">
+                        <field name="user_id" string="Salesperson"/>
+                        <field name="follow_up_date"/>
+                        <field name="follow_up_notes" placeholder="e.g. call back evening..."/>
+                        <field name="agent_notes" placeholder="Detailed conversation notes..." widget="text"/>
+                    </group>
+                </group>
+            </xpath>
+
+            <!-- Visa Process Checklist Tab -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Visa Process Checklist" name="visa_checklist">
+                    <group>
+                        <group string="Checklist">
+                            <field name="has_ds160"/>
+                            <field name="has_fees_paid"/>
+                            <field name="has_appointment"/>
+                            <separator/>
+                            <field name="checklist_progress" widget="progressbar"/>
+                        </group>
+                        <group string="Wait Status">
+                            <field name="waiting_for" widget="selection"/>
+                            <field name="waiting_notes" invisible="not waiting_for"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ============================================= -->
+    <!-- HIDE: Generate Leads button from Kanban        -->
+    <!-- ============================================= -->
+    <record id="visa_hide_generate_leads_kanban" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.hide.generate</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm_iap_mine.view_crm_lead_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_generate_leads']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="visa_hide_generate_leads_kanban2" model="ir.ui.view">
+        <field name="name">crm.lead.kanban2.hide.generate</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm_iap_mine.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_generate_leads']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================= -->
+    <!-- Quick Create - Simplified for Visa            -->
+    <!-- ============================================= -->
+    <record id="visa_quick_create_form" model="ir.ui.view">
+        <field name="name">crm.lead.quick_create.visa</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.quick_create_opportunity_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='expected_revenue']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//label[@for='expected_revenue']/../div" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================= -->
+    <!-- CRM LEAD LIST VIEW                            -->
+    <!-- ============================================= -->
+    <record id="visa_crm_lead_view_tree" model="ir.ui.view">
+        <field name="name">crm.lead.tree.visa</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml">
+            <!-- ADDITIVE: keep all standard columns; show only Lead Name + Contact No
+                 by default; the rest are selectable via the column picker. -->
+            <field name="name" position="attributes">
+                <attribute name="string">Lead Name</attribute>
+            </field>
+            <xpath expr="//field[@name='name']" position="after">
+                <xpath expr="//field[@name='phone']" position="move"/>
+                <field name="company_currency" column_invisible="True"/>
+                <field name="visa_category" optional="show"/>
+                <field name="service_type" optional="show"/>
+                <field name="lead_temperature" string="Status" widget="badge" optional="show"
+                       decoration-danger="lead_temperature == 'hot'"
+                       decoration-warning="lead_temperature == 'warm'"
+                       decoration-info="lead_temperature == 'cold'"/>
+                <field name="follow_up_date" string="Follow-up" optional="show"/>
+                <field name="price_quoted" string="Price Quoted" widget="monetary"
+                       options="{'currency_field': 'company_currency'}" optional="hide"/>
+            </xpath>
+            <field name="phone" position="attributes">
+                <attribute name="string">Contact No</attribute>
+                <attribute name="optional">show</attribute>
+            </field>
+            <field name="email_from" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="city" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="country_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="user_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+        </field>
+    </record>
+
+    <!-- ============================================= -->
+    <!-- CRM OPPORTUNITY LIST VIEW                     -->
+    <!-- ============================================= -->
+    <record id="visa_crm_case_tree_view_oppor" model="ir.ui.view">
+        <field name="name">crm.lead.tree.oppor.visa</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <!-- High priority so this applies AFTER crm_sms adds its SMS buttons,
+             letting us hide them. -->
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <!-- ADDITIVE: keep all standard columns in the arch (so downstream
+                 reporting/SMS views still work) but show only Lead Name + Contact No
+                 by default; everything else is selectable via the column picker. -->
+
+            <!-- Rename the main column -->
+            <field name="name" position="attributes">
+                <attribute name="string">Lead Name</attribute>
+            </field>
+
+            <!-- Put Contact No right after the name, then our visa columns -->
+            <xpath expr="//field[@name='name']" position="after">
+                <xpath expr="//field[@name='phone']" position="move"/>
+                <field name="visa_category" optional="show"/>
+                <field name="service_type" optional="show"/>
+                <field name="lead_temperature" string="Status" widget="badge" optional="show"
+                       decoration-danger="lead_temperature == 'hot'"
+                       decoration-warning="lead_temperature == 'warm'"
+                       decoration-info="lead_temperature == 'cold'"/>
+                <field name="follow_up_date" string="Follow-up" optional="show"/>
+                <field name="price_quoted" string="Price Quoted" widget="monetary"
+                       options="{'currency_field': 'company_currency'}" optional="hide"/>
+            </xpath>
+
+            <!-- Contact No: visible by default -->
+            <field name="phone" position="attributes">
+                <attribute name="string">Contact No</attribute>
+                <attribute name="optional">show</attribute>
+            </field>
+
+            <!-- Everything else: hidden by default (still selectable) -->
+            <field name="email_from" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="contact_name" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="user_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="stage_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="expected_revenue" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+
+            <!-- Hide the inline Email / SMS buttons on each row + header -->
+            <button name="208" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="209" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="228" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="229" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+        </field>
+    </record>
+
+    <!-- ============================================= -->
+    <!-- SEARCH FILTERS                                -->
+    <!-- ============================================= -->
+    <record id="visa_crm_lead_view_search" model="ir.ui.view">
+        <field name="name">crm.lead.search.visa</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_leads_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='inactive']" position="after">
+                <separator/>
+                <filter string="Hot Leads" name="filter_hot"
+                        domain="[('lead_temperature', '=', 'hot')]"/>
+                <filter string="Warm Leads" name="filter_warm"
+                        domain="[('lead_temperature', '=', 'warm')]"/>
+                <filter string="Cold Leads" name="filter_cold"
+                        domain="[('lead_temperature', '=', 'cold')]"/>
+                <separator/>
+                <filter string="Follow-up Today" name="filter_followup_today"
+                        domain="[('follow_up_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Follow-up Overdue" name="filter_followup_overdue"
+                        domain="[('follow_up_date', '&lt;', context_today().strftime('%Y-%m-%d')), ('follow_up_date', '!=', False)]"/>
+                <separator/>
+                <filter string="Agents" name="filter_agents"
+                        domain="[('lead_type_visa', '=', 'agent')]"/>
+                <filter string="H1B" name="filter_h1b"
+                        domain="[('visa_category', '=', 'h1b')]"/>
+                <filter string="B1/B2" name="filter_b1b2"
+                        domain="[('visa_category', '=', 'b1b2')]"/>
+                <filter string="F1" name="filter_f1"
+                        domain="[('visa_category', '=', 'f1')]"/>
+                <filter string="H4" name="filter_h4"
+                        domain="[('visa_category', '=', 'h4')]"/>
+            </xpath>
+            <xpath expr="//group" position="inside">
+                <filter string="Lead Status" name="group_temp"
+                        context="{'group_by': 'lead_temperature'}"/>
+                <filter string="Visa Category" name="group_visa"
+                        context="{'group_by': 'visa_category'}"/>
+                <filter string="Payment" name="group_payment"
+                        context="{'group_by': 'payment_status'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ============================================= -->
+    <!-- PIPELINE: open as LIST grouped by STAGE        -->
+    <!-- ServiceNow-style: each stage is a folded row   -->
+    <!-- showing its lead count; click to expand list.  -->
+    <!-- ============================================= -->
+    <record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
+        <field name="view_mode">list,kanban,form,activity,calendar,pivot,graph</field>
+        <field name="context">{
+            'default_type': 'opportunity',
+            'search_default_assigned_to_me': 1,
+            'group_by': 'stage_id',
+        }</field>
+    </record>
+
+    <!-- ============================================= -->
+    <!-- TODAY'S FOLLOW-UPS  (Sales menu)               -->
+    <!-- Leads whose Follow-up Date is today or overdue -->
+    <!-- ============================================= -->
+    <record id="visa_action_followups_today" model="ir.actions.act_window">
+        <field name="name">Today's Follow-ups</field>
+        <field name="res_model">crm.lead</field>
+        <field name="view_mode">list,kanban,form,calendar,activity</field>
+        <field name="domain">[('follow_up_date', '&lt;=', context_today().strftime('%Y-%m-%d')), ('follow_up_date', '!=', False)]</field>
+        <field name="context">{'search_default_assigned_to_me': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No follow-ups due today 🎉</p>
+            <p>A lead appears here when its <b>Follow-up Date</b> is today or earlier (overdue).
+               Set the Follow-up Date on a lead to schedule it.</p>
+        </field>
+    </record>
+
+    <menuitem id="visa_menu_followups_today"
+              name="Today's Follow-ups"
+              parent="crm.crm_menu_sales"
+              action="visa_action_followups_today"
+              sequence="2"/>
+
+</odoo>
