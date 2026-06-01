@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="visa_ux.Dashboard">
+        <div class="o_visa_dashboard p-4">
+            <div t-if="state.loading" class="text-muted">Loading dashboard…</div>
+            <div t-else="">
+                <h3 class="mb-4">Visa CRM Overview</h3>
+
+                <div class="o_visa_kpis d-flex flex-wrap gap-3 mb-4">
+                    <div class="o_visa_kpi" t-on-click="() => this.openStage(false)">
+                        <div class="o_visa_kpi_value" t-esc="state.total"/>
+                        <div class="o_visa_kpi_label">Total Leads</div>
+                    </div>
+                    <div class="o_visa_kpi o_visa_kpi_hot" t-on-click="() => this.openHot()">
+                        <div class="o_visa_kpi_value" t-esc="state.hot"/>
+                        <div class="o_visa_kpi_label">Hot Leads</div>
+                    </div>
+                    <div class="o_visa_kpi o_visa_kpi_follow" t-on-click="() => this.openFollowToday()">
+                        <div class="o_visa_kpi_value" t-esc="state.followToday"/>
+                        <div class="o_visa_kpi_label">Follow-ups Due</div>
+                    </div>
+                </div>
+
+                <div class="o_visa_funnel">
+                    <h5 class="mb-3">Pipeline by Stage</h5>
+                    <t t-foreach="state.stages" t-as="s" t-key="s.id">
+                        <div class="o_visa_bar_row" t-on-click="() => this.openStage(s.id)">
+                            <div class="o_visa_bar_label" t-esc="s.name"/>
+                            <div class="o_visa_bar_track">
+                                <div class="o_visa_bar_fill" t-attf-style="width: {{ barWidth(s.count) }}%"/>
+                            </div>
+                            <div class="o_visa_bar_count" t-esc="s.count"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

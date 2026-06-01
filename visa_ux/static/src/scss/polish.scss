@@ -1,0 +1,101 @@
+// ===== Visa CRM Dashboard =====
+.o_visa_dashboard {
+    background: #f7f8fa;
+    min-height: 100%;
+
+    .o_visa_kpi {
+        cursor: pointer;
+        min-width: 170px;
+        padding: 16px 22px;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #7c7bad;
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        .o_visa_kpi_value {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 1.1;
+        }
+        .o_visa_kpi_label {
+            color: #6c757d;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+    }
+
+    .o_visa_kpi_hot {
+        border-left-color: #dc3545;
+    }
+    .o_visa_kpi_follow {
+        border-left-color: #fd7e14;
+    }
+
+    .o_visa_funnel {
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px 24px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        max-width: 780px;
+    }
+
+    .o_visa_bar_row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 7px 0;
+        cursor: pointer;
+
+        .o_visa_bar_label {
+            width: 170px;
+            font-size: 13px;
+            color: #344;
+        }
+        .o_visa_bar_track {
+            flex: 1;
+            background: #eef0f3;
+            border-radius: 6px;
+            height: 24px;
+            overflow: hidden;
+        }
+        .o_visa_bar_fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9b9ad6, #7c7bad);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+            min-width: 2px;
+        }
+        .o_visa_bar_count {
+            width: 44px;
+            text-align: right;
+            font-weight: 600;
+        }
+        &:hover .o_visa_bar_fill {
+            filter: brightness(1.06);
+        }
+    }
+}
+
+// ===== Internal Notes preview in lists =====
+.o_visa_note_preview {
+    cursor: pointer;
+    color: #017e84;
+    border-bottom: 1px dotted #017e84;
+
+    &:hover {
+        color: #015c61;
+    }
+}
+
+.o_visa_note_popover {
+    max-width: 340px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-size: 13px;
+}

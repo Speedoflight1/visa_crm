@@ -113,6 +113,25 @@ visa_crm/
     └── crm_lead_views.xml   # Form, list, search, menu overrides
 ```
 
+## Companion module: `visa_ux` (CRM Dashboard)
+
+This repo also includes a small companion module, **`visa_ux/`**, that adds a
+**CRM Dashboard** — a "Dashboard" item in the CRM top menu showing:
+
+- Total leads, Hot leads, Follow-ups due today (clickable KPI cards)
+- A "Pipeline by Stage" bar chart (click a bar to drill into that stage's list)
+
+Built as an OWL client action (`static/src/dashboard/`), data via `read_group` — no
+extra fields, no data migration.
+
+> The module folder also contains a `manual_save.js` patch (ServiceNow-style explicit
+> save) and a `notes_popover` widget (Internal Notes column with click-to-preview).
+> These are **disabled in the default manifest** (kept on disk for later use). To enable
+> them, add their files back to the `assets` / `data` keys in `visa_ux/__manifest__.py`.
+
+Install it the same way as `visa_crm` (Apps → search `visa_ux` → Install). It depends on
+`visa_crm`.
+
 ## Compatibility
 
 | Odoo version | Status |

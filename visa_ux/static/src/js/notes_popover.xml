@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="visa_ux.NotesPopoverField">
+        <span class="o_visa_note_preview"
+              t-att-title="text"
+              t-on-click="onClick"
+              t-esc="preview"/>
+    </t>
+
+    <t t-name="visa_ux.NotesPopoverContent">
+        <div class="o_visa_note_popover p-2" t-esc="props.text"/>
+    </t>
+
+</templates>

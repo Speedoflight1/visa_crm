@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Add Internal Notes column (click-to-preview popover) to the Opportunity list -->
+    <record id="visa_ux_oppor_notes" model="ir.ui.view">
+        <field name="name">crm.lead.oppor.notes.visa_ux</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="priority">120</field>
+        <field name="arch" type="xml">
+            <field name="phone" position="after">
+                <field name="agent_notes" string="Internal Notes"
+                       widget="notes_popover" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Same on the Leads list -->
+    <record id="visa_ux_leads_notes" model="ir.ui.view">
+        <field name="name">crm.lead.leads.notes.visa_ux</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
+        <field name="priority">120</field>
+        <field name="arch" type="xml">
+            <field name="phone" position="after">
+                <field name="agent_notes" string="Internal Notes"
+                       widget="notes_popover" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
