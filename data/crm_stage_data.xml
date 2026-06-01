@@ -1,35 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <!-- noupdate=0 so fold changes apply on module upgrade -->
+    <data>
 
         <!-- Pipeline matches your actual workflow:
-             New Lead -> Details Captured -> Follow Up Scheduled -> ID Received -->
+             New Lead -> Details Captured -> Follow Up Scheduled -> ID Received.
+             fold=False on all stages => kanban shows a proper full board
+             with every column open (no sideways folded columns). -->
         <record id="stage_new" model="crm.stage">
             <field name="name">New Lead</field>
             <field name="sequence">1</field>
             <field name="is_won">False</field>
+            <field name="fold">False</field>
         </record>
 
         <record id="stage_details_captured" model="crm.stage">
             <field name="name">Details Captured</field>
             <field name="sequence">2</field>
             <field name="is_won">False</field>
-            <field name="fold">True</field>
+            <field name="fold">False</field>
         </record>
 
         <record id="stage_followup" model="crm.stage">
             <field name="name">Follow Up Scheduled</field>
             <field name="sequence">3</field>
             <field name="is_won">False</field>
-            <field name="fold">True</field>
+            <field name="fold">False</field>
         </record>
 
         <record id="stage_id_received" model="crm.stage">
             <field name="name">ID Received</field>
             <field name="sequence">4</field>
             <field name="is_won">True</field>
-            <field name="fold">True</field>
+            <field name="fold">False</field>
         </record>
+
+        <!-- Force-unfold on every upgrade. The original stage records were created
+             with noupdate=1, so Odoo skips field updates on them. A <function>
+             always runs, so this guarantees the columns are unfolded (full board). -->
+        <function model="crm.stage" name="write"
+                  eval="[[ref('stage_new'), ref('stage_details_captured'), ref('stage_followup'), ref('stage_id_received')], {'fold': False}]"/>
 
     </data>
 </odoo>

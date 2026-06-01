@@ -17,11 +17,15 @@ disabled in this build (files kept on disk for later use).
     'depends': ['crm', 'visa_crm', 'web'],
     'data': [
         'views/dashboard_menu.xml',
+        'views/crm_lead_notes_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
             'visa_ux/static/src/dashboard/dashboard.js',
             'visa_ux/static/src/dashboard/dashboard.xml',
+            'visa_ux/static/src/js/manual_save.js',
+            'visa_ux/static/src/js/notes_popover.js',
+            'visa_ux/static/src/js/notes_popover.xml',
             'visa_ux/static/src/scss/polish.scss',
         ],
     },

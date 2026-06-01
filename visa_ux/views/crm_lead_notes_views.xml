@@ -8,7 +8,7 @@
         <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
         <field name="priority">120</field>
         <field name="arch" type="xml">
-            <field name="phone" position="after">
+            <field name="follow_up_date" position="after">
                 <field name="agent_notes" string="Internal Notes"
                        widget="notes_popover" optional="show"/>
             </field>
@@ -22,7 +22,7 @@
         <field name="inherit_id" ref="crm.crm_case_tree_view_leads"/>
         <field name="priority">120</field>
         <field name="arch" type="xml">
-            <field name="phone" position="after">
+            <field name="follow_up_date" position="after">
                 <field name="agent_notes" string="Internal Notes"
                        widget="notes_popover" optional="show"/>
             </field>

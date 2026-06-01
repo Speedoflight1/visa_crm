@@ -177,3 +177,40 @@ class CrmLead(models.Model):
                 'url': f'https://wa.me/{clean}',
                 'target': 'new',
             }
+
+    def action_visa_submit(self):
+        """Explicit 'SUBMIT' button. Odoo saves the (dirty) record before any
+        object-type button runs, so just clicking this persists the changes.
+        We return a small toast so the user gets clear confirmation."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Saved',
+                'message': 'Lead details submitted successfully.',
+                'type': 'success',
+                'sticky': False,
+            },
+        }
+
+    def action_visa_schedule_call(self):
+        """Open the standard 'Schedule Activity' dialog pre-set to a Call."""
+        self.ensure_one()
+        call_type = self.env.ref('mail.mail_activity_data_call', raise_if_not_found=False)
+        ctx = dict(self.env.context)
+        ctx.update({
+            'default_res_model': 'crm.lead',
+            'default_res_id': self.id,
+        })
+        if call_type:
+            ctx['default_activity_type_id'] = call_type.id
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Schedule a Call',
+            'res_model': 'mail.activity',
+            'view_mode': 'form',
+            'views': [[False, 'form']],
+            'target': 'new',
+            'context': ctx,
+        }

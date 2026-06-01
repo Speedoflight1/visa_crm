@@ -22,15 +22,12 @@
                     </div>
                 </div>
 
-                <div class="o_visa_funnel">
-                    <h5 class="mb-3">Pipeline by Stage</h5>
+                <h5 class="mb-3">Pipeline by Stage <small class="text-muted">(click a box to open its leads)</small></h5>
+                <div class="o_visa_stage_boxes d-flex flex-wrap gap-3">
                     <t t-foreach="state.stages" t-as="s" t-key="s.id">
-                        <div class="o_visa_bar_row" t-on-click="() => this.openStage(s.id)">
-                            <div class="o_visa_bar_label" t-esc="s.name"/>
-                            <div class="o_visa_bar_track">
-                                <div class="o_visa_bar_fill" t-attf-style="width: {{ barWidth(s.count) }}%"/>
-                            </div>
-                            <div class="o_visa_bar_count" t-esc="s.count"/>
+                        <div class="o_visa_stage_box" t-on-click="() => this.openStage(s.id)">
+                            <div class="o_visa_stage_count" t-esc="s.count"/>
+                            <div class="o_visa_stage_name" t-esc="s.name"/>
                         </div>
                     </t>
                 </div>

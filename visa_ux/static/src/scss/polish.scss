@@ -37,47 +37,33 @@
         border-left-color: #fd7e14;
     }
 
-    .o_visa_funnel {
-        background: #fff;
-        border-radius: 10px;
-        padding: 20px 24px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-        max-width: 780px;
-    }
-
-    .o_visa_bar_row {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 7px 0;
+    .o_visa_stage_box {
         cursor: pointer;
+        min-width: 175px;
+        flex: 0 0 auto;
+        padding: 20px 24px;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        border-top: 4px solid #7c7bad;
+        text-align: center;
+        transition: transform 0.1s ease, box-shadow 0.1s ease;
 
-        .o_visa_bar_label {
-            width: 170px;
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+        }
+
+        .o_visa_stage_count {
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1.1;
+            color: #2b2b40;
+        }
+        .o_visa_stage_name {
+            color: #6c757d;
             font-size: 13px;
-            color: #344;
-        }
-        .o_visa_bar_track {
-            flex: 1;
-            background: #eef0f3;
-            border-radius: 6px;
-            height: 24px;
-            overflow: hidden;
-        }
-        .o_visa_bar_fill {
-            height: 100%;
-            background: linear-gradient(90deg, #9b9ad6, #7c7bad);
-            border-radius: 6px;
-            transition: width 0.3s ease;
-            min-width: 2px;
-        }
-        .o_visa_bar_count {
-            width: 44px;
-            text-align: right;
-            font-weight: 600;
-        }
-        &:hover .o_visa_bar_fill {
-            filter: brightness(1.06);
+            margin-top: 6px;
         }
     }
 }
@@ -98,4 +84,146 @@
     white-space: pre-wrap;
     word-break: break-word;
     font-size: 13px;
+}
+
+// ===== Tighter badges under the lead name =====
+// Pull the tag row right up under the lead name (kill the big empty gap).
+.o_form_view .oe_title {
+    h1 {
+        margin-bottom: 2px !important;
+    }
+}
+.o_visa_badges {
+    gap: 6px !important;
+    margin-top: 0 !important;
+    margin-bottom: 4px !important;
+
+    .o_field_badge {
+        margin: 0 !important;
+    }
+    .badge {
+        font-size: 12px;
+        padding: 4px 9px;
+    }
+}
+
+// =====================================================================
+//  VISA THEME  (eVisas) — clean, professional, consistent
+// =====================================================================
+$visa-primary: #243b6b;   // professional navy/indigo
+$visa-primary-2: #2f4d8a; // lighter navy for gradient
+$visa-accent:  #0e8f86;   // teal-green accent
+$visa-highlight: #fff6e6; // soft amber wash for "important" fields
+$visa-surface: #f4f6f9;   // app background
+
+// ---- Top navbar: solid professional bar ----
+.o_main_navbar {
+    background: linear-gradient(90deg, $visa-primary 0%, $visa-primary-2 100%) !important;
+    border-bottom: 3px solid $visa-accent;
+
+    .o_menu_brand,
+    .o_nav_entry,
+    .dropdown-toggle {
+        font-weight: 500;
+    }
+}
+
+// ---- App background: consistent light surface (kills the patchy white) ----
+.o_action_manager,
+.o_content,
+.o_form_view,
+.o_list_view,
+.o_kanban_view {
+    background-color: $visa-surface;
+}
+
+// ---- Form sheet: a clean white "card" centered on the surface ----
+.o_form_view .o_form_sheet {
+    background: #fff;
+    border: 1px solid #e3e7ee;
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+// ---- Section headers (Contact Info / Lead Details ...) get an accent ----
+.o_form_view .o_horizontal_separator,
+.o_form_view .o_group .o_horizontal_separator {
+    color: $visa-primary;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    border-bottom: 2px solid $visa-accent;
+    padding-bottom: 4px;
+}
+
+// ---- HIGHLIGHT the mandatory / most-used fields ----
+.o_form_view {
+    .o_field_widget[name="lead_temperature"],
+    .o_field_widget[name="follow_up_date"],
+    .o_field_widget[name="phone"],
+    .o_field_widget[name="whatsapp_number"],
+    .o_field_widget[name="visa_category"] {
+        background: $visa-highlight;
+        border-radius: 6px;
+        padding: 2px 6px;
+        font-weight: 600;
+    }
+}
+
+// ---- SUBMIT button: make it the clear primary action ----
+.o_form_view .o_cp_buttons .btn-primary,
+.o_statusbar_buttons .btn-primary {
+    background: $visa-accent !important;
+    border-color: $visa-accent !important;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+// =====================================================================
+//  KANBAN PIPELINE — clean professional "board"
+// =====================================================================
+.o_kanban_view {
+    // column container
+    .o_kanban_group {
+        background: #eef1f6;
+        border-radius: 10px;
+        margin: 0 6px;
+        padding: 6px;
+
+        // column header: white with a navy bottom accent (not a heavy block)
+        .o_kanban_header {
+            background: #fff;
+            border-bottom: 3px solid $visa-primary;
+            border-radius: 8px 8px 0 0;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+
+            .o_column_title {
+                font-weight: 700;
+                color: $visa-primary;
+            }
+            .o_kanban_counter_side,
+            .o_animated_number {
+                color: $visa-accent;
+                font-weight: 700;
+            }
+        }
+    }
+
+    // cards
+    .o_kanban_record {
+        border: 1px solid #e6e9f0 !important;
+        border-left: 4px solid $visa-accent !important;
+        border-radius: 9px !important;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        margin-bottom: 8px;
+        transition: transform 0.08s ease, box-shadow 0.08s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+    }
 }
